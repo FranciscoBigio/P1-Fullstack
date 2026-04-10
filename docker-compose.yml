@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - MYSQL_HOST=mysql_db
+      - MYSQL_USER=root
+      - MYSQL_PASS=root
+      - MYSQL_DB=app_db
+      - MONGO_URI=mongodb://mongo_db:27017/app_db
+    depends_on:
+      - mysql_db
+      - mongo_db
+
+  mysql_db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: app_db
+    ports:
+      - "3306:3306"
+
+  mongo_db:
+    image: mongo:6.0
+    ports:
+      - "27017:27017"
